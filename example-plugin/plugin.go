@@ -8,20 +8,19 @@ import (
 	"net/http"
 )
 
-// ClientRegisterer is the symbol the plugin loader will try to load.
-// It must implement the RegisterClient interface
-var ClientRegisterer = registerer("example-plugin")
+// HandlerRegisterer is the symbol the plugin loader will try to load. It must implement the Registerer interface
+var HandlerRegisterer = registerer("example-plugin")
 
 type registerer string
 
-func (r registerer) RegisterClients(f func(
+func (r registerer) RegisterHandlers(f func(
 	name string,
-	handler func(context.Context, map[string]interface{}) (http.Handler, error),
+	handler func(context.Context, map[string]interface{}, http.Handler) (http.Handler, error),
 )) {
-	f(string(r), r.registerClients)
+	f(string(r), r.registerHandlers)
 }
 
-func (r registerer) registerClients(ctx context.Context, extra map[string]interface{}) (http.Handler, error) {
+func (r registerer) registerHandlers(ctx context.Context, extra map[string]interface{}, _ http.Handler) (http.Handler, error) {
 	// check the passed configuration and initialize the plugin
 	name, ok := extra["name"].(string)
 	if !ok {
@@ -30,16 +29,14 @@ func (r registerer) registerClients(ctx context.Context, extra map[string]interf
 	if name != string(r) {
 		return nil, fmt.Errorf("unknown register %s", name)
 	}
-	// return the actual handler wrapping or your custom logic so it can be used as a replacement for the default http client
-	return http.HandlerFunc(handler), nil
-}
-
-func handler(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, "Hello, %q", html.EscapeString(req.URL.Path))
+	// return the actual handler wrapping or your custom logic so it can be used as a replacement for the default http handler
+	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+		fmt.Fprintf(w, "Hello, %q", html.EscapeString(req.URL.Path))
+	}), nil
 }
 
 func init() {
-	fmt.Println("krakend-example client plugin loaded!!!")
+	fmt.Println("example-plugin handler loaded!!!")
 }
 
 func main() {}

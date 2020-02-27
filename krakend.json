@@ -37,13 +37,8 @@
                       "url_pattern": "/",
                       "encoding": "no-op",
                       "extra_config": {
-                          "github.com/devopsfaith/krakend/transport/http/client/executor": {
+                          "github_com/devopsfaith/krakend/transport/http/server/handler": {
                               "name": "example-plugin"
-                          },
-                          "github.com/devopsfaith/krakend-circuitbreaker/gobreaker": {
-                              "interval": 60,
-                              "timeout": 10,
-                              "maxErrors": 1
                           }
                       }
                   }
