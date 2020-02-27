@@ -3,7 +3,7 @@
 all: plugin docker
 
 plugin:
-	go build -buildmode=plugin -o example-plugin.so ./example-plugin
+	go build -buildmode=plugin -o plugins/example-plugin.so ./example-plugin
 
 docker:
 	docker build -t hands-on-krakend:v1.0.0 .
