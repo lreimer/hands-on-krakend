@@ -1,0 +1,17 @@
+version: "2.3"
+
+services:
+  hands-on-krakend:
+    build:
+      context: .
+    image: hands-on-krakend:v1.0.0
+    mem_limit: 128m
+    ports:
+      - "8080:8080"
+      - "8090:8090"
+    networks:
+      - krakend
+
+networks:
+  krakend:
+    driver: bridge

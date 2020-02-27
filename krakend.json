@@ -1,0 +1,53 @@
+{
+  "version": 2,
+  "name": "Hitchhikers Guide to API Gateways",
+  "port": 8080,
+  "cache_ttl": "3600s",
+  "timeout": "3s",
+  "plugin": {
+    "folder": "/etc/krakend/plugins/",
+    "pattern": ".so"
+  },
+  "extra_config": {
+      "github_com/devopsfaith/krakend-gologging": {
+        "level":  "DEBUG",
+        "prefix": "[KRAKEND]",
+        "syslog": false,
+        "stdout": true
+      },
+      "github_com/devopsfaith/krakend-metrics": {
+        "collection_time": "60s",
+        "proxy_disabled": false,
+        "router_disabled": false,
+        "backend_disabled": false,
+        "endpoint_disabled": false,
+        "listen_address": ":8090"
+      }
+    },
+    "endpoints": [
+          {
+              "endpoint": "/",
+              "method": "GET",
+              "output_encoding": "no-op",
+              "backend": [
+                  {
+                      "host": [
+                          "https://www.google.com"
+                      ],
+                      "url_pattern": "/",
+                      "encoding": "no-op",
+                      "extra_config": {
+                          "github.com/devopsfaith/krakend/transport/http/client/executor": {
+                              "name": "example-plugin"
+                          },
+                          "github.com/devopsfaith/krakend-circuitbreaker/gobreaker": {
+                              "interval": 60,
+                              "timeout": 10,
+                              "maxErrors": 1
+                          }
+                      }
+                  }
+              ]
+          }
+      ]
+  }
