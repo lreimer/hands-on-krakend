@@ -8,7 +8,7 @@ import (
 )
 
 // HandlerRegisterer is the symbol the plugin loader will try to load. It must implement the Registerer interface
-var HandlerRegisterer = registerer("router-plugin")
+var HandlerRegisterer = registerer("example-plugin")
 
 type registerer string
 
@@ -25,18 +25,19 @@ func (r registerer) registerHandlers(ctx context.Context, extra map[string]inter
 	if !ok {
 		return nil, errors.New("wrong config")
 	}
-	if name[0] != string(r) {
+	if name[1] != string(r) {
 		return nil, fmt.Errorf("unknown register %s", name)
 	}
+
 	// return the actual handler wrapping or your custom logic so it can be used as a replacement for the default http handler
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-		fmt.Println("router-plugin called")
+		fmt.Println("example-plugin called")
 		handler.ServeHTTP(w, req)
 	}), nil
 }
 
 func init() {
-	fmt.Println("router-plugin handler loaded!!!")
+	fmt.Println("example-plugin handler loaded!!!")
 }
 
 func main() {}

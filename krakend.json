@@ -24,7 +24,7 @@
         "listen_address": ":8090"
       },
       "github_com/devopsfaith/krakend/transport/http/server/handler": {
-          "name": "router-plugin"
+          "name": ["router-plugin", "example-plugin"]
       }
     },
     "endpoints": [

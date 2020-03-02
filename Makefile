@@ -3,6 +3,7 @@
 all: plugins docker
 
 plugins:
+	go build -buildmode=plugin -o plugins/example-plugin.so ./example-plugin
 	go build -buildmode=plugin -o plugins/router-plugin.so ./router-plugin
 	go build -buildmode=plugin -o plugins/proxy-plugin.so ./proxy-plugin
 
