@@ -9,11 +9,15 @@
     "pattern": ".so"
   },
   "extra_config": {
+      "github_com/devopsfaith/krakend-logstash": {
+        "enabled": true
+      },
       "github_com/devopsfaith/krakend-gologging": {
-        "level":  "INFO",
-        "prefix": "[KRAKEND]",
-        "syslog": false,
-        "stdout": true
+          "level": "INFO",
+          "prefix": "[KRAKEND]",
+          "syslog": false,
+          "stdout": true,
+          "format": "logstash"
       },
       "github_com/devopsfaith/krakend-metrics": {
         "collection_time": "10s",
@@ -83,7 +87,7 @@
                   "url_pattern": "/data/2.5/weather",
                   "encoding": "json",
                   "host": [
-                      "https://samples.openweathermap.org"
+                      "https://api.openweathermap.org"
                   ],
                   "extra_config": {
                     "github.com/devopsfaith/krakend/transport/http/client/executor": {
