@@ -1,4 +1,4 @@
-FROM golang:1.13 as builder
+FROM golang:1.16.4 as builder
 
 COPY ./example-plugin/ /example-plugin
 RUN cd /example-plugin && go build -buildmode=plugin -o example-plugin.so .
@@ -9,9 +9,9 @@ RUN cd /router-plugin && go build -buildmode=plugin -o router-plugin.so .
 COPY ./proxy-plugin/ /proxy-plugin
 RUN cd /proxy-plugin && go build -buildmode=plugin -o proxy-plugin.so .
 
-# replace with official krakend:1.1.0 once released
-FROM disc/krakend:1.0.0
+FROM devopsfaith/krakend:1.4.1
 
+EXPOSE 8080 8090
 ENV GIN_MODE=release
 CMD ["run", "-d", "-c", "/etc/krakend/krakend.json"]
 

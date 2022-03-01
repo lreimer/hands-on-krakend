@@ -4,7 +4,7 @@ services:
   hands-on-krakend:
     build:
       context: .
-    image: hands-on-krakend:v1.0.0
+    image: hands-on-krakend
     mem_limit: 128m
     ports:
       - "8080:8080"
